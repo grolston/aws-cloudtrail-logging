@@ -1,7 +1,6 @@
 name: CFN-NAG Security Scan
 
 on: [push]
-
 jobs:
   ## cfn-nag security scan
   security-scan-nag:
