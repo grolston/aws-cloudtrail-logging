@@ -3,7 +3,7 @@ name: Security Scan
 on: [push]
 
 jobs:
-  securityscan:
+  security-scan:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
