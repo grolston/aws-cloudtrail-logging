@@ -3,11 +3,11 @@ name: Security Scan
 on: [push]
 
 jobs:
-  deploy:
+  securityscan:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
     - uses: grolston/cfn-security@master
       env:
-        CLOUDFORMATION_DIRECTORY: "./cloudformation"
+        CLOUDFORMATION_DIRECTORY: "./cloudformation/"
         TEST: "cfn-nag"
