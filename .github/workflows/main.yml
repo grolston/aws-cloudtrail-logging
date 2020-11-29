@@ -10,4 +10,4 @@ jobs:
     - uses: grolston/cfn-security@master
       env:
         CLOUDFORMATION_DIRECTORY: "./cloudformation/"
-        TEST: "cfn-nag"
+        TEST: "checkov"
