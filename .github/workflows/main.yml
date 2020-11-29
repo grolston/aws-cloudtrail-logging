@@ -1,4 +1,4 @@
-name: CFN Security Scan
+name: CFT Security Scan
 
 on: [push]
 
