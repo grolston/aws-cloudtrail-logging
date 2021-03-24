@@ -2,38 +2,8 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >
   CloudTrail logging/monitoring capabilities for compliance
-Metadata:
-  Stack:
-    Value: 0
-  VersionDate:
-    Value: 2020-10-18
-  Identifier:
-    Value: monitoring
-  AWS::CloudFormation::Interface:
-    ParameterGroups:
-      - Label:
-          default: Tagging
-        Parameters:
-          - pCidValue
-          - pCustomerValue
-    ParameterLabels:
-      pCidValue:
-        default: CID Tag
-      pCustomerValue:
-        default: Customer Tag
 
-Parameters:
-
-  pCidValue:
-    Description: >
-      Customer ID found in Salesforce
-    Type: String
-    MinLength: 1
-
-  pCustomerValue:
-    Description: The customer name for the Org
-    Type: String
-    MinLength: 1
+Parameters: {}
 
 Resources:
 
@@ -62,11 +32,6 @@ Resources:
             StorageClass: GLACIER
       VersioningConfiguration:
         Status: Enabled
-      Tags:
-        - Key: CID
-          Value: !Ref pCidValue
-        - Key: Customer
-          Value: !Ref pCustomerValue
 
   rAwsLogArchiveBucketPolicy:
     Type: AWS::S3::BucketPolicy
@@ -111,11 +76,7 @@ Resources:
       LoggingConfiguration:
         DestinationBucketName: !Ref rAwsLogArchiveBucket
         LogFilePrefix: cloudtrail-logs
-      Tags:
-        - Key: CID
-          Value: !Ref pCidValue
-        - Key: Customer
-          Value: !Ref pCustomerValue
+
 
   rCloudTrailS3Policy:
     Type: AWS::S3::BucketPolicy
@@ -173,11 +134,7 @@ Resources:
         - IncludeManagementEvents: true
       CloudWatchLogsLogGroupArn: !GetAtt rCloudTrailLogGroup.Arn
       CloudWatchLogsRoleArn: !GetAtt rCloudWatchLogsRole.Arn
-      Tags:
-        - Key: CID
-          Value: !Ref pCidValue
-        - Key: Customer
-          Value: !Ref pCustomerValue
+
 
   rCloudWatchLogsRole:
     Type: AWS::IAM::Role
@@ -202,11 +159,6 @@ Resources:
             - logs:CreateLogStream
             - logs:PutLogEvents
             Resource: !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:${rCloudTrailLogGroup}:log-stream:*"
-      Tags:
-        - Key: CID
-          Value: !Ref pCidValue
-        - Key: Customer
-          Value: !Ref pCustomerValue
 
   rCloudTrailRole:
     Type: AWS::IAM::Role
@@ -234,11 +186,6 @@ Resources:
             - s3:PutObject
             - s3:GetObject
             Resource: !Sub "${rCloudTrailBucket.Arn}/*"
-      Tags:
-        - Key: CID
-          Value: !Ref pCidValue
-        - Key: Customer
-          Value: !Ref pCustomerValue
 
   rCloudTrailProfile:
     Type: AWS::IAM::InstanceProfile
